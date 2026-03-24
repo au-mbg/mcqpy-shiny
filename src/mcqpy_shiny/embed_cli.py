@@ -62,14 +62,18 @@ def _build_source_embed_qmd(
 ) -> str:
     shared_path = Path(__file__).with_name("shared_core.py")
     embed_path = Path(__file__).with_name("embed_app.py")
+    runtime_path = Path(__file__).with_name("runtime_bundle.py")
     shared_source = shared_path.read_text(encoding="utf-8").rstrip()
     embed_source = embed_path.read_text(encoding="utf-8").rstrip()
+    runtime_source = runtime_path.read_text(encoding="utf-8").rstrip()
 
     parts = [
         "```{shinylive-python}",
         "#| standalone: true",
         "## file: shared_core.py",
         shared_source,
+        "## file: runtime_bundle.py",
+        runtime_source,
         "## file: embed_app.py",
         embed_source,
         "## file: app.py",

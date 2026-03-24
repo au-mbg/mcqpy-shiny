@@ -8,7 +8,10 @@ from pathlib import Path
 from urllib.parse import urljoin
 from urllib.request import urlopen
 
-from mcqpy.web import WebQuizBundle
+try:
+    from .runtime_bundle import load_bundle_file, load_bundle_json
+except ImportError:  # pragma: no cover - direct `shiny run path/to/app.py`
+    from runtime_bundle import load_bundle_file, load_bundle_json
 
 
 def _is_remote_url(value: str) -> bool:
@@ -23,27 +26,25 @@ def _path_to_data_url(path: Path) -> str:
     return f"data:{mime_type};base64,{encoded}"
 
 
-def _resolve_question_images(bundle: WebQuizBundle, source: str) -> WebQuizBundle:
+def _resolve_question_images(bundle: dict, source: str) -> dict:
     updated_questions = []
-    for question in bundle.questions:
-        updated_questions.append(
-            question.model_copy(
-                update={
-                    "images": [
-                        image if _is_remote_url(image) else urljoin(source, image)
-                        for image in question.images
-                    ]
-                }
-            )
-        )
-    return bundle.model_copy(update={"questions": updated_questions})
+    for question in bundle["questions"]:
+        updated = dict(question)
+        updated["images"] = [
+            image if _is_remote_url(image) else urljoin(source, image)
+            for image in question.get("images", [])
+        ]
+        updated_questions.append(updated)
+    updated_bundle = dict(bundle)
+    updated_bundle["questions"] = updated_questions
+    return updated_bundle
 
 
-def _resolve_local_question_images(bundle: WebQuizBundle, bundle_dir: Path) -> WebQuizBundle:
+def _resolve_local_question_images(bundle: dict, bundle_dir: Path) -> dict:
     updated_questions = []
-    for question in bundle.questions:
+    for question in bundle["questions"]:
         images = []
-        for image in question.images:
+        for image in question.get("images", []):
             image_path = Path(image)
             if image_path.is_absolute():
                 resolved = image_path
@@ -52,9 +53,13 @@ def _resolve_local_question_images(bundle: WebQuizBundle, bundle_dir: Path) -> W
 
             images.append(_path_to_data_url(resolved))
 
-        updated_questions.append(question.model_copy(update={"images": images}))
+        updated = dict(question)
+        updated["images"] = images
+        updated_questions.append(updated)
 
-    return bundle.model_copy(update={"questions": updated_questions})
+    updated_bundle = dict(bundle)
+    updated_bundle["questions"] = updated_questions
+    return updated_bundle
 
 
 async def _fetch_text(url: str) -> str:
@@ -70,19 +75,19 @@ async def _fetch_text(url: str) -> str:
     return await response.string()
 
 
-def load_bundle_from_path(path: str | Path) -> WebQuizBundle:
+def load_bundle_from_path(path: str | Path) -> dict:
     bundle_path = Path(path).resolve()
-    bundle = WebQuizBundle.load_from_file(bundle_path)
+    bundle = load_bundle_file(bundle_path)
     return _resolve_local_question_images(bundle, bundle_path.parent)
 
 
-async def load_bundle_from_url(url: str) -> WebQuizBundle:
+async def load_bundle_from_url(url: str) -> dict:
     raw = await _fetch_text(url)
-    bundle = WebQuizBundle.model_validate_json(raw)
+    bundle = load_bundle_json(raw)
     return _resolve_question_images(bundle, url)
 
 
-async def load_bundle(source: str) -> WebQuizBundle:
+async def load_bundle(source: str) -> dict:
     if _is_remote_url(source):
         return await load_bundle_from_url(source)
     return load_bundle_from_path(source)
