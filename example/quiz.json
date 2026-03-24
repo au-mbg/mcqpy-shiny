@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "MCQPy Example Quiz",
+    "description": "This provides some extra information about the quiz or exam. For example, you might include instructions for students here.\nThis example includes questions demonstrating various features of MCQPy, including  \\begin{itemize}\n  \\item Multiple choice questions with single and multiple correct answers\n  \\item Questions with one or more figures\n  \\item Questions with mathematical notation using LaTeX, for both question text and answer choices.\n  \\item Questions with highlighted code snippets\n\\end{itemize}\n",
+    "source": "config.yaml"
+  },
+  "questions": [
+    {
+      "qid": "fdcf9509-879d-524c-8785-124b2097ebd9",
+      "slug": "001_regular_question_example",
+      "text": "This is a regular question without anything too fancy. What is the correct answer?",
+      "choices": [
+        "Not the correct answer",
+        "The correct answer",
+        "Another wrong answer",
+        "Yet another wrong answer"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [],
+      "has_explanation": false
+    },
+    {
+      "qid": "895e08c6-73bd-560f-9863-d5fbb2b90bf5",
+      "slug": "002_math_question",
+      "text": "What does the below equation represent?\n\\begin{equation} \\phi(x) =  \\begin{cases} \\alpha (e^{x} - 1) & \\mathrm{if } x < 0 \\\\ x & \\mathrm{if } x \\geq 0 \\end{cases} \\end{equation}\n",
+      "choices": [
+        "The Exponential Linear Unit (ELU) activation function",
+        "The Schrödinger equation",
+        "The Fourier transform",
+        "The Cauchy-Riemann equations"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [],
+      "has_explanation": false
+    },
+    {
+      "qid": "d9b07b62-c984-5397-88e4-c873c1a67d6a",
+      "slug": "003_math_question_answers",
+      "text": "What is the correct formulation of the time-independent Schrödinger equation?",
+      "choices": [
+        "$E = mc^2$",
+        "$ F = ma$",
+        "$a^2 + b^2 = c^2$",
+        "$V = IR$",
+        "$pV = nRT$",
+        "$-\\frac{\\hbar^2}{2m}\\nabla^2\\psi + V\\psi = E\\psi$"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [],
+      "has_explanation": false
+    },
+    {
+      "qid": "d9cb954f-0eab-5d21-8f47-2797bf410c65",
+      "slug": "004_image_question",
+      "text": "What is shown in the image?",
+      "choices": [
+        "A cute dog",
+        "A german shepherd",
+        "A beach",
+        "All of the above"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "images": [
+        "assets/004_image_question_1.jpg"
+      ],
+      "image_captions": {
+        "0": "The picture that goes with the question."
+      },
+      "code_blocks": [],
+      "has_explanation": false
+    },
+    {
+      "qid": "f79965d5-04b3-5659-839a-54022b27fd8a",
+      "slug": "005_multi_image_question",
+      "text": "Which image is taken in the capital city of France?",
+      "choices": [
+        "Figure (a)",
+        "Figure (b)",
+        "Figure (c)",
+        "Figure (d)"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "images": [
+        "assets/005_multi_image_question_1.jpeg",
+        "assets/005_multi_image_question_2.jpeg",
+        "assets/005_multi_image_question_3.jpeg",
+        "assets/005_multi_image_question_4.jpeg"
+      ],
+      "image_captions": {
+        "0": "Figure (a)",
+        "1": "Figure (b)",
+        "2": "Figure (c)",
+        "3": "Figure (d)"
+      },
+      "code_blocks": [],
+      "has_explanation": false
+    },
+    {
+      "qid": "8601325f-cfca-5fe2-a5ac-2cac75afc699",
+      "slug": "006_example_question_with_code",
+      "text": "What does the code below do?",
+      "choices": [
+        "Calculates the square of the input value",
+        "Computes double the input value",
+        "Returns the input value unchanged",
+        "Finds the factorial of the input value"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [
+        {
+          "code": "def example_function(x):\n    return x * 2\n",
+          "language": "python"
+        }
+      ],
+      "has_explanation": false
+    },
+    {
+      "qid": "2e901a8f-8777-5873-babe-68adfea8a6cb",
+      "slug": "007_code_multi_question",
+      "text": "Which code snippets implements a function that returns the square of a number?",
+      "choices": [
+        "First code snippet",
+        "Second code snippet",
+        "Third code snippet",
+        "Fourth code snippet",
+        "Fifth code snippet"
+      ],
+      "question_type": "multiple",
+      "point_value": 1,
+      "correct_onehot": [
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [
+        {
+          "code": "def square(x):\n    return x * x\n",
+          "language": "python"
+        },
+        {
+          "code": "def square(x):\n    return x + x\n",
+          "language": "python"
+        },
+        {
+          "code": "def square(x):\n    return x ** 3\n",
+          "language": "python"
+        },
+        {
+          "code": "def square(x):\n    return x - x\n",
+          "language": "python"
+        },
+        {
+          "code": "def square(x):\n    return x**2\n",
+          "language": "python"
+        }
+      ],
+      "has_explanation": false
+    },
+    {
+      "qid": "79362d84-c76d-5904-ac1c-58a28904cd8f",
+      "slug": "code_heavy_question",
+      "text": "In line 12 of the following code snippet, what is the meaning of `x` and `edge_index`?\n",
+      "choices": [
+        "They are the input features and edge indices of the graph data, respectively.",
+        "They are the output features and edge indices of the graph data, respectively.",
+        "They are the weights and biases of the GCN layer, respectively.",
+        "They are the node features and edge indices of the graph data, respectively.",
+        "They are the activation functions applied to the graph data, respectively."
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [
+        {
+          "code": "import torch\nimport torch.nn.functional as F\nfrom torch_geometric.nn import GCNConv\n\nclass GCN(torch.nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.conv1 = GCNConv(dataset.num_node_features, 16)\n        self.conv2 = GCNConv(16, dataset.num_classes)\n\n    def forward(self, data):\n        x, edge_index = data.x, data.edge_index\n\n        x = self.conv1(x, edge_index)\n        x = F.relu(x)\n        x = F.dropout(x, training=self.training)\n        x = self.conv2(x, edge_index)\n\n        return F.log_softmax(x, dim=1)\n",
+          "language": "python"
+        }
+      ],
+      "has_explanation": false
+    },
+    {
+      "qid": "d5f80db3-d6e5-55c3-a174-124fc16b6d2b",
+      "slug": "code_rust_question",
+      "text": "In the following Rust code snippet, what happens when the function `main` is called?\n",
+      "choices": [
+        "The program prints a message and successfully drinks all beverages.",
+        "The program panics immediately without printing any message.",
+        "The program prints a message for water and still water, but panics when trying to drink lemonade.",
+        "The program prints a message for water, but panics when trying to drink lemonade and exits before reaching still water."
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [
+        {
+          "code": "fn drink(beverage: &str) {\n    // You shouldn't drink too many sugary beverages.\n    if beverage == \"lemonade\" { panic!(\"AAAaaaaa!!!!\"); }\n\n    println!(\"Some refreshing {} is all I need.\", beverage);\n}\n\nfn main() {\n    drink(\"water\");\n    drink(\"lemonade\");\n    drink(\"still water\");\n}\n",
+          "language": "rust"
+        }
+      ],
+      "has_explanation": false
+    },
+    {
+      "qid": "b2023dab-3f6a-53ee-8dde-5d04d241d352",
+      "slug": "complex-pde-equation",
+      "text": "Consider the following partial differential equation describing heat diffusion in a non-uniform medium:\n\n$$\\frac{\\partial u}{\\partial t} = \\nabla \\cdot \\left( \\kappa(\\mathbf{x}, t) \\nabla u \\right) + f(\\mathbf{x}, t)$$\n\nwhere $u(\\mathbf{x}, t)$ is the temperature field, $\\kappa(\\mathbf{x}, t)$ is the spatially and temporally dependent thermal conductivity, and $f(\\mathbf{x}, t)$ is a heat source term.\nGiven the boundary condition $u(\\mathbf{x}, 0) = u_0(\\mathbf{x})$ and the Green's function solution:\n\n$$u(\\mathbf{x}, t) = \\int_{\\Omega} G(\\mathbf{x}, \\mathbf{y}, t) u_0(\\mathbf{y}) \\, d\\mathbf{y} + \\int_0^t \\int_{\\Omega} G(\\mathbf{x}, \\mathbf{y}, t-\\tau) f(\\mathbf{y}, \\tau) \\, d\\mathbf{y} \\, d\\tau$$\n\nWhich statement best describes the physical interpretation of this solution?\n",
+      "choices": [
+        "The first integral represents the response to initial conditions; the second represents accumulated heat sources over time",
+        "Both integrals represent only the effect of boundary conditions",
+        "The solution requires $\\kappa$ to be constant throughout the domain",
+        "The Green's function is independent of the heat source term $f$"
+      ],
+      "question_type": "single",
+      "point_value": 1,
+      "correct_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "images": [],
+      "image_captions": {},
+      "code_blocks": [],
+      "has_explanation": true
+    }
+  ]
+}
