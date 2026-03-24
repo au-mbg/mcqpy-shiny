@@ -1,0 +1,76 @@
+name: Publish Wheel To GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-wheel-site:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Build wheel
+        run: uv build --wheel
+
+      - name: Build static wheel index
+        shell: bash
+        run: |
+          mkdir -p wheel-site/wheels
+          cp dist/*.whl wheel-site/wheels/
+          python - <<'PY'
+          from pathlib import Path
+
+          wheels = sorted(Path("wheel-site/wheels").glob("*.whl"))
+          links = "\n".join(
+              f'<li><a href="wheels/{wheel.name}">{wheel.name}</a></li>'
+              for wheel in wheels
+          )
+          html = f"""<!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>mcqpy-shiny wheels</title>
+            </head>
+            <body>
+              <h1>mcqpy-shiny wheels</h1>
+              <ul>
+          {links}
+              </ul>
+            </body>
+          </html>
+          """
+          Path("wheel-site/index.html").write_text(html, encoding="utf-8")
+          PY
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: wheel-site
+
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4

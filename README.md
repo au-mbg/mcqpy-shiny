@@ -27,6 +27,12 @@ assets/
 shiny run --reload src/mcqpy_shiny/app.py
 ```
 
+For local development with `uv`, keep the dev dependencies installed:
+
+```bash
+uv sync
+```
+
 ## Fixed quiz mode
 
 For a locked Quarto/ShinyLive embed, create a tiny wrapper app:
@@ -53,24 +59,58 @@ app = create_app(
 
 ## Quarto / Shinylive embeds
 
+There are now two embed modes:
+
+- Supported: `source-embed`
+- Experimental: `hosted-wheel`
+
 For Quarto embeds, use the Shinylive-specific snippet generator instead of importing
 `mcqpy_shiny` directly inside the `.qmd` code block.
 
-Generate a reusable snippet:
+Generate the supported source-embedded snippet:
 
 ```bash
 uv run python -m mcqpy_shiny.embed_cli \
   --output pages/_includes/example_quiz.qmd \
+  --mode source-embed \
   --allow-manual-load \
   --title "MCQPy Quiz" \
   --card-width 900px
 ```
 
-Then include it from a Quarto page:
+Generate the experimental hosted-wheel snippet:
+
+```bash
+uv run python -m mcqpy_shiny.embed_cli \
+  --output pages/_includes/hosted_wheel_quiz.qmd \
+  --mode hosted-wheel \
+  --wheel-url "https://<user>.github.io/<repo>/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl" \
+  --extra-requirement "shiny>=1.2.1" \
+  --allow-manual-load \
+  --title "MCQPy Quiz" \
+  --card-width 900px
+```
+
+Then include one of those snippets from a Quarto page:
 
 ```qmd
 {{< include _includes/example_quiz.qmd >}}
 ```
+
+or:
+
+```qmd
+{{< include _includes/hosted_wheel_quiz.qmd >}}
+```
+
+The hosted-wheel mode is an experiment. Until it is proven reliable in the browser,
+the supported path remains source embedding.
+
+## Hosted wheel publishing
+
+The repository includes a GitHub Pages workflow that builds a pure-Python wheel and
+publishes a simple static wheel index. Once Pages is enabled for the repository, the
+wheel becomes available at a full `.whl` URL that can be used with `--mode hosted-wheel`.
 
 Render or preview the Quarto project through `uv` so the `shinylive` CLI is on `PATH`:
 
